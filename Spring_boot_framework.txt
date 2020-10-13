@@ -1,0 +1,64 @@
+@Autowired
+  private ContentService contentService;
+
+  @RequestMapping(value = "/fresco")
+  public ResponseEntity<Object> category(){
+    List<Category> cat =  contentService.getAllContent();
+    return new ResponseEntity<>(cat, HttpStatus.OK);
+  }
+
+@Service
+public class ContentService {
+
+private Course addCourseData(
+    int courseId,
+    int categoryId, String name, int duration, int miles
+  ){
+
+    Course obj = new Course();
+    obj.setCategoryId(categoryId);
+    obj.setCourseId(courseId);
+    obj.setName(name);
+    obj.setDuration(duration);
+    obj.setMiles(miles);
+
+    //courses.add(obj);
+
+    return obj;
+  }
+  private Category addData(int categoryId, String name, String description,
+  int courseId, String coursename, int duration, int miles){
+   List<Course> courses = new ArrayList<Course>(3);
+    Category obj = new Category();
+    obj.setCategoryId(categoryId);
+    obj.setDescription(description);
+    obj.setName(name);
+    Course c = this.addCourseData(courseId, categoryId, coursename, duration, miles);
+    courses.add(c);
+    obj.setCourseList(courses);
+
+    return obj;
+  }
+    //put your code here.
+	public List<Category> getAllContent() {
+
+    Category cat = null;
+	List<Category> categories = new ArrayList<Category>(3);
+
+    cat = this.addData(1001, "Artificial Intelligence",
+    "Artificial Intelligence (AI) is a technology used in the computer science field, where the computers are trained to think and take decisions like human brains, but in a creative manner.",
+    1001, "MFDM™ AI - The Renaissance", 190, 120);
+    categories.add(cat);
+
+    cat = this.addData(1002, "BlockChain",
+    "Blockchain can serve as an open, distributed ledger that can record transactions between two parties efficiently and in a verifiable and permanent way.",
+    1002, "Blockchain Intermedio", 110, 150);
+    categories.add(cat);
+
+    cat = this.addData(1003, "Cloud Computing", "The practice of using a network of remote servers hosted on the Internet to store, manage, and process data, rather than a local server or a personal computer."
+    , 1003, "Cloud Foundry", 180, 100);
+    categories.add(cat);
+
+		return categories;
+	}
+
